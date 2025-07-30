@@ -1,6 +1,24 @@
+import { Button } from "@/components/ui/button";
+import { signIn } from "@/lib/auth";
+import { GoalIcon, LogInIcon } from "lucide-react";
 import Image from "next/image";
 
 export default function Home() {
+
+  const handleLoginGitHub = async () => {
+    "use server"    
+    await signIn("github", {
+      redirectTo: "/dashboard",
+    });
+  };
+
+  const handleLoginGoogle = async () => {
+    "use server"    
+    await signIn("google", {
+      redirectTo: "/dashboard",
+    });
+  };
+
   return (
     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
@@ -82,21 +100,14 @@ export default function Home() {
           />
           Examples
         </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+        <Button variant={"outline"} onClick={handleLoginGitHub} className="flex items-center gap-2">
+          <LogInIcon className="h-4 w-4" />
+          Login GitHub
+        </Button>
+        <Button variant={"outline"} onClick={handleLoginGoogle} className="flex items-center gap-2">
+          <GoalIcon className="h-4 w-4" />
+          Login Google
+        </Button>
       </footer>
     </div>
   );
