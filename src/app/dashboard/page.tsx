@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { auth, signOut } from "@/lib/auth";
+
 import { LogOutIcon } from "lucide-react";
 import Image from "next/image";
 import { redirect } from "next/navigation";
