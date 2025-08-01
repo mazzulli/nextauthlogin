@@ -36,3 +36,78 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
 1h e 11m fala sobre stripe https://www.youtube.com/watch?v=DjvPeireh0s
+
+Neste video https://www.youtube.com/watch?v=Dw72SNk-X6Y tem os exemplos de autenticação via credential, do lado do servidor e do lado do cliente (37minutos)
+
+Para a configuração em uma pagina server side usamos o metodo "action" do form, já no client side usamos o "onSubmit" e o evento "e" e e.preventDefault(). Lembrando que tem que ser uma função async.
+
+# SERVER SIDE
+
+# SIGN-UP
+
+Tem que ter a função para Signup
+
+const signup = async({
+name,
+email,
+secret
+}: {
+name: string,
+email: string,
+secret: string
+})=>{
+"use server"
+
+    const user = await prisma.user.create({
+        data: {
+            name,
+            email,
+            secret
+        }
+    })
+    // uma vez criado o registro já podemos fazer o login
+    await signin('credentials', {email: email, password: secret}, redirectTo: '/dashboard')
+
+}
+
+<form action={async(formData) => {
+    "use server"
+    const name = formaData.get('name') as string
+    const email = formaData.get('email') as string
+    const secret = formaData.get('secret') as string
+    await signup(name, email, secret)
+}>
+
+# SIGN-IN
+
+<form action={async(formData) => {
+    "use server"
+    await signin('credentials', formData)    
+}>
+
+# CLIENT SIDE
+
+# SIGN-UP
+
+<form onSubmit={async(e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget)
+    const name = formaData.get('name') as string
+    const email = formaData.get('email') as string
+    const secret = formaData.get('secret') as string
+
+    await signup({name, email, secret}) // import auth ou do next-auth
+
+}>
+
+# SIGN-IN
+
+<form onSubmit={async(e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget)
+    await signin('credentials', {
+        name: formaData.get('name') as string,
+        email: formaData.get('email') as string,
+        redirectTo: '/dashboard'
+    })    
+}>
